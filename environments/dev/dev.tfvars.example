@@ -1,0 +1,4 @@
+bucket_name = "replace-with-a-unique-s3-bucket-name"
+environment = "dev"
+project_name = "terraform-production"
+managed_by = "Terraform"
