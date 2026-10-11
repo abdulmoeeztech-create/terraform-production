@@ -33,10 +33,10 @@ module "app_bucket" {
   }
 }
 
-resource "aws_secretsmanager_secret" "app" {
-  name        = "terraform-production/dev/app"
-  description = "Temporary Infra2Agent lab secret metadata"
 
+resource "aws_secretsmanager_secret" "app" {
+  name                    = "terraform-production/dev/app"
+  description             = "Temporary Infra2Agent lab secret metadata"
   recovery_window_in_days = 0
 
   tags = {
@@ -53,17 +53,14 @@ resource "aws_iam_policy" "secret_reader" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-
     Statement = [
       {
         Sid    = "ReadSpecificLabSecret"
         Effect = "Allow"
-
         Action = [
           "secretsmanager:DescribeSecret",
           "secretsmanager:GetSecretValue"
         ]
-
         Resource = aws_secretsmanager_secret.app.arn
       }
     ]
@@ -82,15 +79,12 @@ resource "aws_iam_role" "app_reader" {
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
-
     Statement = [
       {
         Effect = "Allow"
-
         Principal = {
           Service = "ec2.amazonaws.com"
         }
-
         Action = "sts:AssumeRole"
       }
     ]
