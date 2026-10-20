@@ -164,6 +164,38 @@ The dev environment exposes:
 
 - `bucket_name` — the application S3 bucket name
 - `bucket_arn` — the application S3 bucket ARN
+## Architecture
+## Dedicated Dev VPC
+
+The Dev environment includes a reusable Terraform VPC module at `modules/vpc`.
+
+### Network Design
+
+- **Region:** `ap-south-1` (Mumbai)
+- **VPC CIDR:** `10.20.0.0/16`
+- **Availability Zones:** `ap-south-1a` and `ap-south-1b`
+- **Public subnets:** `10.20.1.0/24`, `10.20.2.0/24`
+- **Private application subnets:** `10.20.11.0/24`, `10.20.12.0/24`
+- **Private database subnets:** `10.20.21.0/24`, `10.20.22.0/24`
+
+### Routing and Access
+
+- Public subnets use a route table with a default route to an Internet Gateway.
+- Application and database subnets use separate route tables with no default internet route.
+- Automatic public IPv4 assignment is disabled for all six subnets.
+- A NAT Gateway has not been deployed as part of this network foundation.
+
+### Verification
+
+The deployed VPC, subnet CIDRs, subnet associations, and route configuration were inspected using the AWS CLI. Terraform subsequently reported that the infrastructure matched the configuration with no changes required.
+
+### Future Work
+
+- Add an internet-facing Application Load Balancer.
+- Deploy application instances in private subnets using an Auto Scaling Group.
+- Add RDS in the private database subnets.
+- Design private AWS service access, monitoring, and security controls.
+- Evaluate outbound connectivity requirements and cost before adding NAT Gateway resources.
 
 ## Current Scope and Future Improvements
 

@@ -30,3 +30,28 @@ variable "managed_by" {
   type        = string
   default     = "Terraform"
 }
+
+variable "vpc_cidr" {
+  description = "CIDR range for the dedicated Dev VPC"
+  type        = string
+}
+
+variable "availability_zones" {
+  description = "Availability Zones for the Dev network"
+  type        = list(string)
+}
+
+variable "public_subnet_cidrs" {
+  description = "Public subnet CIDRs for the ALB tier"
+  type        = list(string)
+}
+
+variable "private_app_subnet_cidrs" {
+  description = "Private subnet CIDRs for the application tier"
+  type        = list(string)
+}
+
+variable "private_db_subnet_cidrs" {
+  description = "Private subnet CIDRs for the database tier"
+  type        = list(string)
+}
