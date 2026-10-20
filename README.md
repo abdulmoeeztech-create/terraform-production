@@ -65,6 +65,9 @@ The reusable S3 module manages the following controls for the application bucket
 - **Block Public Access:** All four S3 public-access-block settings are enabled.
 - **HTTPS-only access:** A bucket policy denies S3 requests made without secure transport (`aws:SecureTransport = false`).
 - **Default encryption:** The module explicitly configures server-side encryption using SSE-S3 (`AES256`). AWS was queried to verify the live configuration.
+- **Noncurrent version expiration:** Noncurrent object versions expire after 30 days.
+- **Expired delete-marker cleanup:** Removes eligible expired delete markers.
+- **Incomplete multipart upload cleanup:** Aborts incomplete uploads after 7 days.
 
 **Cost consideration:** S3 versioning can increase storage costs because previous object versions are retained. Review retention requirements and storage usage before introducing lifecycle expiration rules.
 

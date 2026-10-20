@@ -55,3 +55,40 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
     }
   }
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
+
+  rule {
+    id     = "remove-expired-delete-markers"
+    status = "Enabled"
+
+    filter {}
+
+    expiration {
+      expired_object_delete_marker = true
+    }
+  }
+
+  rule {
+    id     = "abort-incomplete-multipart-uploads"
+    status = "Enabled"
+
+    filter {}
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+}
