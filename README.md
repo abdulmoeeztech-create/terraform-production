@@ -64,8 +64,7 @@ The reusable S3 module manages the following controls for the application bucket
 - **Bucket versioning:** Enabled to support recovery of previous object versions.
 - **Block Public Access:** All four S3 public-access-block settings are enabled.
 - **HTTPS-only access:** A bucket policy denies S3 requests made without secure transport (`aws:SecureTransport = false`).
-
-AWS currently reports default server-side encryption using SSE-S3 (`AES256`). This setting has been verified in AWS but is not yet explicitly managed by the Terraform module.
+- **Default encryption:** The module explicitly configures server-side encryption using SSE-S3 (`AES256`). AWS was queried to verify the live configuration.
 
 **Cost consideration:** S3 versioning can increase storage costs because previous object versions are retained. Review retention requirements and storage usage before introducing lifecycle expiration rules.
 
