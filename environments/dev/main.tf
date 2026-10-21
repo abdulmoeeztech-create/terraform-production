@@ -114,7 +114,7 @@ module "vpc" {
   public_subnet_cidrs      = var.public_subnet_cidrs
   private_app_subnet_cidrs = var.private_app_subnet_cidrs
   private_db_subnet_cidrs  = var.private_db_subnet_cidrs
-
+  enable_s3_endpoint       = true
   tags = {
     Environment = var.environment
     Project     = var.project_name

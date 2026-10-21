@@ -1,4 +1,4 @@
-
+data "aws_region" "current" {}
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -108,4 +108,16 @@ resource "aws_route_table_association" "private_db" {
 
   subnet_id      = aws_subnet.private_db[count.index].id
   route_table_id = aws_route_table.private_db.id
+}
+resource "aws_vpc_endpoint" "s3" {
+  count = var.enable_s3_endpoint ? 1 : 0
+
+  vpc_id            = aws_vpc.this.id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = [aws_route_table.private_app.id]
+
+  tags = merge(var.tags, {
+    Name = "${var.name_prefix}-s3-endpoint"
+  })
 }

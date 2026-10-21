@@ -54,3 +54,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "enable_s3_endpoint" {
+  description = "Whether to enable an S3 Gateway VPC endpoint for private application subnets"
+  type        = bool
+  default     = false
+}
