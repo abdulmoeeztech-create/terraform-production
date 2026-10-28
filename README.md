@@ -17,20 +17,20 @@ A hands-on Infrastructure as Code (IaC) portfolio project demonstrating reusable
 
 ```text
 terraform-production/
-├── .gitignore
-├── README.md
-├── environments/
-│   └── dev/
-│       ├── main.tf
-│       ├── variables.tf
-│       ├── outputs.tf
-│       ├── dev.tfvars.example
-│       └── .terraform.lock.hcl
-└── modules/
-    └── s3/
-        ├── main.tf
-        ├── variables.tf
-        └── outputs.tf
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ README.md
+â”œâ”€â”€ environments/
+â”‚   â””â”€â”€ dev/
+â”‚       â”œâ”€â”€ main.tf
+â”‚       â”œâ”€â”€ variables.tf
+â”‚       â”œâ”€â”€ outputs.tf
+â”‚       â”œâ”€â”€ dev.tfvars.example
+â”‚       â””â”€â”€ .terraform.lock.hcl
+â””â”€â”€ modules/
+    â””â”€â”€ s3/
+        â”œâ”€â”€ main.tf
+        â”œâ”€â”€ variables.tf
+        â””â”€â”€ outputs.tf
 ```
 
 ### Infrastructure Flow
@@ -162,8 +162,8 @@ Applying the configuration can create billable AWS resources. Review the plan an
 
 The dev environment exposes:
 
-- `bucket_name` — the application S3 bucket name
-- `bucket_arn` — the application S3 bucket ARN
+- `bucket_name` â€” the application S3 bucket name
+- `bucket_arn` â€” the application S3 bucket ARN
 ## Architecture
 ## Dedicated Dev VPC
 
@@ -222,3 +222,31 @@ This project demonstrates practical experience with:
 - IAM trust policies versus permissions policies
 - Infrastructure security fundamentals
 - Safe Terraform planning, application, and resource lifecycle management
+
+## Infra2Agent Application Deployment and Self-Healing
+
+The dev environment also demonstrates application deployment using a custom AMI built with Packer, an Application Load Balancer, and an EC2 Auto Scaling Group managed by Terraform.
+
+### Application Architecture
+
+- An internet-facing ALB receives HTTP requests on port 80.
+- Its target group routes requests to healthy application instances.
+- A Terraform-managed launch template references a custom Amazon Linux 2023 AMI.
+- The ASG maintains a desired capacity of one EC2 instance.
+- The application security group permits HTTP traffic from the ALB security group.
+- IMDSv2 is required by the launch template.
+
+### Self-Healing Validation
+
+The original application instance was terminated without decrementing ASG desired capacity. The ASG launched a replacement, which reached `InService` and `Healthy`. A subsequent request through the ALB returned HTTP 200 with the expected application response.
+
+This validates the tested instance-replacement scenario. It is not a guarantee of zero downtime or complete production high availability.
+
+### Additional Documentation
+
+- [Architecture and network design](docs/architecture.md)
+- [Self-healing test procedure and results](docs/self-healing-test.md)
+
+### Operational Cost Reminder
+
+The ALB, EC2 instances, EBS storage, and retained AMI snapshots may incur AWS charges. Review and shut down lab resources through a deliberate, reviewed process when they are no longer needed.
