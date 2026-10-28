@@ -17,22 +17,20 @@ A hands-on Infrastructure as Code (IaC) portfolio project demonstrating reusable
 
 ```text
 terraform-production/
-â”œâ”€â”€ .gitignore
-â”œâ”€â”€ README.md
-â”œâ”€â”€ environments/
-â”‚   â””â”€â”€ dev/
-â”‚       â”œâ”€â”€ main.tf
-â”‚       â”œâ”€â”€ variables.tf
-â”‚       â”œâ”€â”€ outputs.tf
-â”‚       â”œâ”€â”€ dev.tfvars.example
-â”‚       â””â”€â”€ .terraform.lock.hcl
-â””â”€â”€ modules/
-    â””â”€â”€ s3/
-        â”œâ”€â”€ main.tf
-        â”œâ”€â”€ variables.tf
-        â””â”€â”€ outputs.tf
-```
-
+|-- .gitignore
+|-- README.md
+|-- environments/
+|   `-- dev/
+|       |-- main.tf
+|       |-- variables.tf
+|       |-- outputs.tf
+|       |-- dev.tfvars.example
+|       `-- .terraform.lock.hcl
+`-- modules/
+    `-- s3/
+        |-- main.tf
+        |-- variables.tf
+        `-- outputs.tf
 ### Infrastructure Flow
 
 - Terraform uses the AWS provider in `ap-south-1`.
