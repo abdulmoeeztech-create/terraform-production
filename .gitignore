@@ -34,3 +34,7 @@ terraform.rc
 # Environment variables
 .env
 .env.*
+
+# Packer build artifacts
+/packer/manifest.json
+/packer/manifest.json.lock
